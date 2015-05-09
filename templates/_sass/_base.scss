@@ -24,3 +24,13 @@ a {
   background-color: $orange;
   color: #fff;
 }
+
+pre,
+code {
+  background-color: $very-light-grey;
+  padding: 2px 4px;
+  &.inline {
+    display: inline;
+    padding: 2px 4px;
+  }
+}
