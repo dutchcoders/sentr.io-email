@@ -1,3 +1,26 @@
+@mixin button($radius: 5px, $color: $trans-white) {
+  border: 2px solid $color;
+  border-radius: $radius;
+  color: $orange;
+  display: inline-block;
+  margin-top: 1.3em;
+  padding: 8px 16px;
+  text-decoration: none;
+
+  &:hover {
+    border-color: opacify($color, .3);
+  }
+}
+
 a {
   color: $orange;
+
+  &.button {
+    @include button(5px, $orange);
+  }
+}
+
+#header {
+  background-color: $orange;
+  color: #fff;
 }

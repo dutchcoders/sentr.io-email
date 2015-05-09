@@ -8,6 +8,7 @@ img { border:0; height:auto; line-height:100%; outline:none; text-decoration:non
 table { border-collapse:collapse !important;}
 
 #container {
+  max-width: 740px !important;
   table  tr  td {
     padding: 20px;
   }

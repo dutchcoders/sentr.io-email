@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
-          dest: 'dist',
+          dest: '.jekyll',
         }
       },
       server: {
@@ -48,6 +48,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     premailer: {
       simple: {
         options: {},
@@ -55,10 +56,11 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: ['.jekyll/*.html'],
-          dest: 'dist/'
+          dest: '.jekyll'
         }]
       }
     },
+
     secret: grunt.file.readJSON('secret.json'),
     mandrill: {
       mailer: {
@@ -68,7 +70,17 @@ module.exports = function(grunt) {
           recipient: '<%= secret.mandrill.testAddress %>',
           subject: 'This is a test email'
         },
-        src: ['.jekyll/*.html']
+        src: ['dist/*.html']
+      }
+    },
+    inline: {
+      all: {
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['.jekyll/*.html'],
+          dest: 'dist'
+        }]
       }
     }
   });
@@ -76,8 +88,15 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['browserSync','watch']);
 
   grunt.registerTask('build', [
-    'jekyll:dist'
+    'jekyll:dist',
+    'premailer',
+    'inline'
   ]);
+
+  grunt.registerTask('test',[
+    'build',
+    'mandrill:mailer'
+  ])
 
   grunt.loadNpmTasks('grunt-jekyll');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -85,4 +104,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browser-sync');
   grunt.loadNpmTasks('grunt-premailer');
   grunt.loadNpmTasks('grunt-mandrill');
+  grunt.loadNpmTasks('grunt-inline');
 };
