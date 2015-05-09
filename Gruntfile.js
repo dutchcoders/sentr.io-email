@@ -47,6 +47,29 @@ module.exports = function(grunt) {
           watchTask: true
         }
       }
+    },
+    premailer: {
+      simple: {
+        options: {},
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['.jekyll/*.html'],
+          dest: 'dist/'
+        }]
+      }
+    },
+    secret: grunt.file.readJSON('secret.json'),
+    mandrill: {
+      mailer: {
+        options: {
+          key: '<%= secret.mandrill.key %>',
+          sender: 'noreply@sentr.io',
+          recipient: '<%= secret.mandrill.testAddress %>',
+          subject: 'This is a test email'
+        },
+        src: ['.jekyll/*.html']
+      }
     }
   });
 
@@ -61,4 +84,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-browser-sync');
   grunt.loadNpmTasks('grunt-premailer');
+  grunt.loadNpmTasks('grunt-mandrill');
 };
